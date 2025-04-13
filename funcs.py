@@ -58,7 +58,11 @@ class Funcs(commands.Cog):
         out = []
 
         for i, player in enumerate(players):
-            if player:
+            #toviel ma testing codecel
+            if 'antho' in players and i == 3:
+                out.append(f"{positions[i]}: {player}")
+            
+            else if player:
                 out.append(f"{positions[i]}: {player}")
 
         await ctx.send("\n".join(out))
