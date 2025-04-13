@@ -8,7 +8,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 class SnotBot(commands.Bot):
 
     def __init__(self):
-        super().__init__(command_prefix="!")
+        super().__init__(command_prefix="!", intents=discord.Intents.default())
         self._last_result = None
         self.session = aiohttp.ClientSession(loop=self.loop)
 
