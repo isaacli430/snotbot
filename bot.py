@@ -10,10 +10,12 @@ class SnotBot(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix="!", intents=discord.Intents.default())
         self._last_result = None
-        self.session = aiohttp.ClientSession(loop=self.loop)
+        self.session = None
 
 
     async def on_connect(self):
+        self.session = aiohttp.ClientSession(loop=self.loop)
+        
         for name, func in inspect.getmembers(self):
             if isinstance(func, commands.Command):
                 self.add_command(func)
