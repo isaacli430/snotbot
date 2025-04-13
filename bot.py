@@ -25,8 +25,8 @@ class SnotBot(commands.Bot):
 
 
     @commands.command()
-    async def cyrus(self, ctx):
-        await ctx.send('Alan')
+    async def cyrus(self):
+        await self.send('Alan')
 
     @commands.command()
     async def dain(self, ctx):
