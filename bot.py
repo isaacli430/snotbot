@@ -1,4 +1,4 @@
-import os, random, discord
+import os, random, discord, aiohttp
 
 from discord.ext import commands
 
