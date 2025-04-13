@@ -1,4 +1,4 @@
-import os, random, discord, aiohttp
+import os, random, discord, aiohttp, inspect
 
 from discord.ext import commands
 from dotenv import load_dotenv
