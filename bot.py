@@ -1,32 +1,34 @@
-import os
-import random
+import os, random, discord
 
-import discord
-from dotenv import load_dotenv
+from discord.ext import commands
 
-load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-GUILD = os.getenv('DISCORD_GUILD')
 
-intents = discord.Intents.all()
-client = discord.Client(intents=intents)
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-    
-    if message.content.startswith('!cyrus'):
-        await message.channel.send('Alan')
-    
-    if message.content.startswith('!dain'):
-        await message.channel.send('Darsh')
+class SnotBot(commands.Bot):
 
-    if message.content.startswith('!kill'):
-        await message.channel.send('Quitjak')
-        quit()
+    def __init__(self):
+        super().__init__(command_prefix="!")
+        self._last_result = None
+        self.session = aiohttp.ClientSession(loop=self.loop)
 
-    if message.content.startswith('!darshify'):
+
+    async def on_connect(self):
+        for name, func in inspect.getmembers(self):
+            if isinstance(func, commands.Command):
+                self.add_command(func)
+
+
+    @commands.command()
+    async def cyrus(self, ctx):
+        await ctx.send('Alan')
+
+    @commands.command()
+    async def dain(self, ctx):
+        await ctx.send('Darsh')
+
+    @commands.command()
+    async def darshify(self, ctx):
         try:
             words = message.content.split()
             del words[0]
@@ -37,7 +39,7 @@ async def on_message(message):
                 else:
                     words[i] = words[i] + alans[random.randint(0,3)]
 
-            await message.channel.send(' '.join(words))
+            await ctx.send(' '.join(words))
 
         except discord.errors.HTTPException:
 
@@ -46,10 +48,11 @@ async def on_message(message):
             second_part = words[third: third * 2]
             third_part = words[third * 2:]
 
-            await message.channel.send(' '.join(first_part))
-            await message.channel.send(' '.join(second_part))
-            await message.channel.send(' '.join(third_part))
+            await ctx.send(' '.join(first_part))
+            await ctx.send(' '.join(second_part))
+            await ctx.send(' '.join(third_part))
+        
 
 #twitter needs to send me something first before anything happens here
 
-client.run(TOKEN)
+SnotBot().run(TOKEN)
