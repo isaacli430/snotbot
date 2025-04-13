@@ -1,6 +1,9 @@
 import os, random, discord, aiohttp
 
 from discord.ext import commands
+from dotenv import load_dotenv
+
+load_dotenv()
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 
@@ -15,7 +18,7 @@ class SnotBot(commands.Bot):
 
     async def on_connect(self):
         self.session = aiohttp.ClientSession(loop=self.loop)
-        
+
         for name, func in inspect.getmembers(self):
             if isinstance(func, commands.Command):
                 self.add_command(func)
