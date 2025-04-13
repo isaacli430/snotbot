@@ -59,8 +59,8 @@ class Funcs(commands.Cog):
 
         for i, player in enumerate(players):
             #toviel ma testing codecel
-            if 'antho' in players and i == 3:
-                out.append(f"{positions[i]}: {player}")
+            if "antho" in players:
+                out.append(f"ADC: {player}")
             
             else if player:
                 out.append(f"{positions[i]}: {player}")
