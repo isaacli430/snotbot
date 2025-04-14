@@ -24,4 +24,5 @@ class SnotBot(commands.Bot):
 
 #twitter needs to send me something first before anything happens here
 
-SnotBot().run(TOKEN)
+if __name__ == '__main__':
+    SnotBot().run(TOKEN)

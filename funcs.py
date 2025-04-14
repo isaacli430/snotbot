@@ -62,3 +62,21 @@ class Funcs(commands.Cog):
                 out.append(f"{positions[i]}: {player}")
 
         await ctx.send("\n".join(out))
+
+
+    @commands.command(name="playersmix")
+    async def _playersmix(self, ctx, *players):
+
+        if len(players) != 10:
+            return await ctx.send("You need 10 players.")
+
+        players = list(players)
+
+        random.shuffle(players)
+
+        team_1 = '\n'.join(players[:5])
+        team_2 = '\n'.join(players[5:10])
+
+        out = f"__**Team 1**__:\n{team_1}\n\n__**Team 2**__:\n{team_2}"
+
+        await ctx.send(out)
