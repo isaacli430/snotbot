@@ -46,20 +46,43 @@ class Funcs(commands.Cog):
         if len(players) > 5:
             return await ctx.send("You cannot have more than 5 players.")
 
-        positions = ["Top", "Jungle", "Mid", "ADC", "Support"]
+        positions = ["top:", "jungle:", "mid:", "adc:", "support:"]
+        available_roles = [0, 1, 2, 3, 4]
+        random.shuffle(available_roles)
 
         players = list(players)
 
-        while len(players) < 5:
-            players.append(None)
+        for i, player in enumerate(players):
+            lower_player = player.lower()
+            found = False
+            for j, position in enumerate(positions):
+                if lower_player.startswith(position):
+                    if j not in available_roles:
+                        return await ctx.send("You can only have one person per role.")
 
-        random.shuffle(players)
+                    available_roles.remove(j)
+                    players[i] = [player[len(position):], j]
+                    found = True
+                    break
+
+            if not found:
+                players[i] = [player, None]
+
+        while len(players) < 5:
+            players.append([None, None])
+
+        for player in players:
+            if player[1] == None:
+                player[1] = available_roles[0]
+                del available_roles[0]
+
+        players.sort(key = lambda player: player[1])
 
         out = []
 
         for i, player in enumerate(players):
-            if player:
-                out.append(f"{positions[i]}: {player}")
+            if player[0]:
+                out.append(f"{positions[i].upper()} {player[0]}")
 
         await ctx.send("\n".join(out))
 
