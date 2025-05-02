@@ -80,3 +80,9 @@ class Funcs(commands.Cog):
         out = f"__**Team 1**__:\n{team_1}\n\n__**Team 2**__:\n{team_2}"
 
         await ctx.send(out)
+
+
+    @commands.command(name="count")
+    async def _count(self, ctx):
+
+        await ctx.send(f"Antho has dropped the word {self.bot.counter_data['counter']} times.")
