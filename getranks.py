@@ -29,15 +29,11 @@ class Summoner:
 
 		if response.status_code == 200:
 			data = response.json()
-			# tier = data[0]['tier']
-			# rank = data[0]['rank']
-			# lp = data[0]['leaguePoints'] 
-			# These are not returned
 			return data
 		else:
 			raise Exception( f'error: {response.status_code}')
 
-	def __lt__(self, other): #true if self is less than other
+	def __lt__(self, other): 
 		tiers = ['IRON', 'SILVER', 'GOLD', 'PLATINUM', 'EMERALD', 'DIAMOND', 'MASTER', 'GRANDMASTER', 'CHALLENGER']
 		ranks = ['IV', 'III', 'II', 'I']
 		if self.tiers.index() < other.tiers.index():
@@ -58,5 +54,5 @@ class Summoner:
 	def __eq__(self, other):
 		return self.tiers.index() == other.tiers.index() and self.rank.index() == other.rank.index() and self.lp == self.lp
 
-	def __repr__(self):
+	def __str__(self):
 		return f'{self.unencrypted_username}: {self.tier} {self.rank} {self.lp}lp'
