@@ -137,15 +137,15 @@ class Funcs(commands.Cog):
         except Exception as e:
             await ctx.send(f"Error: {str(e)}")
 
-	@commands.command(name="leaderboard")
-	async def _leaderboard(self, ctx):
+    @commands.command(name="leaderboard")
+    async def _leaderboard(self, ctx):
 
-		out = []
-		for key, info in self.bot.data["summoners"].items():
-			out.append(str(Summoner(info['unencrypted_username'], info['tagline'])))
-		
-		out.sort()
-		out.insert(0, "-----LEADERBOARD-----")
-		
-		output = "\n".join(out)
-		await ctx.send(output)
+	out = []
+	for key, info in self.bot.data["summoners"].items():
+		out.append(str(Summoner(info['unencrypted_username'], info['tagline'])))
+	
+	out.sort()
+	out.insert(0, "-----LEADERBOARD-----")
+	
+	output = "\n".join(out)
+	await ctx.send(output)
