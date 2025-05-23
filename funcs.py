@@ -1,6 +1,6 @@
 import random
 from discord.ext import commands
-import getranks
+from getranks import Summoner
 
 class Funcs(commands.Cog):
 

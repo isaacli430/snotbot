@@ -3,6 +3,7 @@ import os, random, discord, aiohttp, inspect, json
 from discord.ext import commands
 from dotenv import load_dotenv
 from funcs import Funcs
+from getranks import Summoner
 
 load_dotenv()
 
