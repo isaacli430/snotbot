@@ -16,7 +16,13 @@ class SnotBot(commands.Bot):
         self.session = None
         
         with open("data.json") as f:
-            self.counter_data = json.load(f)
+            self.data = json.load(f)
+
+        self.summoners = {}
+
+        for username, value in self.data["summoners"].items():
+			summoner = Summoner(value["unencrypted_username"], value["tagline"])
+			self.summoners[username] = summoner
 
 
     async def on_connect(self):
@@ -24,36 +30,21 @@ class SnotBot(commands.Bot):
         await self.add_cog(Funcs(self))
 
     async def on_message(self, message):
-        if message.author.id in self.counter_data["antho_id"]:
-            count = sum([message.content.count(variation) for variation in self.counter_data["variations"]])
+        if message.author.id in self.data["antho_id"]:
+            count = sum([message.content.count(variation) for variation in self.data["variations"]])
 
             if count > 0:
-                self.counter_data["counter"] += count
+                self.data["counter"] += count
                 with open("data.json", "w") as f:
-                    f.write(json.dumps(self.counter_data, indent=4))
+                    f.write(json.dumps(self.data, indent=4))
 
 
-                await message.channel.send(f"Antho has dropped the word {self.counter_data['counter']} times.")
+                await message.channel.send(f"Antho has dropped the word {self.data['counter']} times.")
 
-        if message.channel.id in self.counter_data["allowed_channels"]:
+        if message.channel.id in self.data["allowed_channels"]:
             await self.process_commands(message)
         
-	@bot.event
-	async def on_ready():
-		bot.summoners = {}
-		bot.summoners_data = {}
-
-		try:
-			with open("data.json", "r") as f:
-				bot.summoners_data = json.load(f)
-
-			for username, data in bot.summoners_data.items():
-				summoner = Summoner(data["unencrypted_username"], data["tagline"])
-				bot.summoners[username] = summoner
-
-			print(f"Loaded {len(bot.summoners)} summoners.")
-		except FileNotFoundError:
-			print("No leaderboard file found. Starting fresh.")
+		
 
 if __name__ == '__main__':
     SnotBot().run(TOKEN)

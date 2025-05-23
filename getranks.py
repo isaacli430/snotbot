@@ -1,9 +1,6 @@
 import requests
 import json
 
-API_KEY = "RGAPI-c82def11-a28b-4157-96d1-4018e6d99f41"
-region = "NA1"
-
 class Summoner:
 	
 	def __init__(self, unencrypted_username: str, tagline: str):
@@ -32,10 +29,11 @@ class Summoner:
 
 		if response.status_code == 200:
 			data = response.json()
-			tier = data[0]['tier']
-			rank = data[0]['rank']
-			lp = data[0]['leaguePoints']
-			return data;
+			# tier = data[0]['tier']
+			# rank = data[0]['rank']
+			# lp = data[0]['leaguePoints'] 
+			# These are not returned
+			return data
 		else:
 			raise Exception( f'error: {response.status_code}')
 
