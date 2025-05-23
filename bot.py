@@ -38,8 +38,22 @@ class SnotBot(commands.Bot):
         if message.channel.id in self.counter_data["allowed_channels"]:
             await self.process_commands(message)
         
+	@bot.event
+	async def on_ready():
+		bot.summoners = {}
+		bot.summoners_data = {}
 
-#twitter needs to send me something first before anything happens here
+		try:
+			with open("data.json", "r") as f:
+				bot.summoners_data = json.load(f)
+
+			for username, data in bot.summoners_data.items():
+				summoner = Summoner(data["unencrypted_username"], data["tagline"])
+				bot.summoners[username] = summoner
+
+			print(f"Loaded {len(bot.summoners)} summoners.")
+		except FileNotFoundError:
+			print("No leaderboard file found. Starting fresh.")
 
 if __name__ == '__main__':
     SnotBot().run(TOKEN)

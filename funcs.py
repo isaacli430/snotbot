@@ -1,5 +1,6 @@
 import random
 from discord.ext import commands
+import getranks
 
 class Funcs(commands.Cog):
 
@@ -109,3 +110,34 @@ class Funcs(commands.Cog):
     async def _count(self, ctx):
 
         await ctx.send(f"Antho has dropped the word {self.bot.counter_data['counter']} times.")
+
+@commands.command(name="add_summoner")
+async def add_summoner(self, ctx, unencrypted_username, tagline):
+    username_key = unencrypted_username.lower().strip()
+
+    if not hasattr(self.bot, "summoners"):
+        self.bot.summoners = {}
+
+    if not hasattr(self.bot, "summoners_data"):
+        self.bot.summoners_data = {}
+
+    if username_key in self.bot.summoners:
+        await ctx.send(f"{username_key} is already stored.")
+        return
+
+    try:
+        summoner = Summoner(unencrypted_username, tagline)
+        self.bot.summoners[username_key] = summoner
+
+        self.bot.summoners_data[username_key] = {
+            "unencrypted_username": summoner.unencrypted_username,
+            "tagline": summoner.tagline,
+        }
+
+        await ctx.send(f"Stored: {summoner.unencrypted_username}")
+
+        with open("data.json", "w") as f:
+            json.dump(self.bot.summoners_data, f, indent=2)
+
+    except Exception as e:
+        await ctx.send(f"Error: {str(e)}")
